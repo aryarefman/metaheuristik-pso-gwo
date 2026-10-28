@@ -57,7 +57,7 @@ This project makes that visible. Two floating islands share the **same landscape
 | | PSO · eagles | GWO · wolves |
 | :--- | :--- | :--- |
 | Island | jade lake, karst towers, pavilion, fisherman on a bamboo raft | dry sandstone canyon, mesas, hoodoos, no water |
-| Rule | `v = w·v + c1·r1·(pbest − x) + c2·r2·(gbest − x)` | `X = (X1 + X2 + X3) / 3`, `Xk = Xleader − A·|C·Xleader − X|` |
+| Rule | `v = w·v + c1·r1·(pbest − x) + c2·r2·(gbest − x)` | `X = (X1 + X2 + X3) / 3`, `Xk = Xleader − A·\|C·Xleader − X\|` |
 | On screen | momentum, own-best and swarm-best arrows, pbest gems, gbest star | α β δ leaders, guide arrows, X1–X3 guesses, shrinking search circle |
 
 ## Summary
