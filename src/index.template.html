@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<link rel="icon" type="image/png" href="{{assets}}mascots/eagle.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/*__CSS__*/
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body data-view="both" data-style="{{style}}" data-lang="{{lang}}">
+<canvas id="gl"></canvas>
+<div id="tags"></div>
+
+<header class="top">
+  <div class="brand"><span class="name">Sky Optimizers</span><span class="sub">{{brandSub}}</span></div>
+  <nav class="seg lang" id="langs" aria-label="{{langNav}}">
+    <a href="{{hrefEn}}" data-lang="en" title="{{langEnTitle}}" lang="en">EN</a>
+    <a href="{{hrefId}}" data-lang="id" title="{{langIdTitle}}" lang="id">ID</a>
+  </nav>
+  <nav class="seg style" id="styles" aria-label="{{versionNav}}">
+    <a href="{{hrefReal}}" data-style="real" title="{{styleRealTitle}}">{{styleReal}}</a>
+    <a href="{{hrefCrochet}}" data-style="crochet" title="{{styleCrochetTitle}}">{{styleCrochet}}</a>
+  </nav>
+  <nav class="seg views" id="views" aria-label="{{viewNav}}">
+    <button data-v="both" class="on" aria-label="{{viewBoth}}" title="{{viewBoth}} (1)"><span class="duo"><img src="{{assets}}mascots/eagle.png" alt=""><img src="{{assets}}mascots/wolf.png" alt=""></span><span class="vl">{{viewBothShort}}</span></button>
+    <button data-v="pso" aria-label="{{viewPSO}}" title="{{viewPSO}} (2)"><img src="{{assets}}mascots/eagle.png" alt=""><span class="vl">{{viewPSOShort}}</span></button>
+    <button data-v="gwo" aria-label="{{viewGWO}}" title="{{viewGWO}} (3)"><img src="{{assets}}mascots/wolf.png" alt=""><span class="vl">{{viewGWOShort}}</span></button>
+  </nav>
+  <button class="vbtn" id="btnVideo" title="{{vBtnTitle}}" aria-label="{{vBtnTitle}}"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 8.2l6 3.8-6 3.8z"/></svg><span>{{vBtn}}</span></button>
+  <button class="round" id="btnTour" aria-label="{{tourBtn}}" title="{{tourBtn}}"><svg viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 6c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5z"/><path d="M12 6v13.5"/></svg></button>
+  <button class="round" id="btnInfo" aria-label="{{infoBtn}}" title="{{infoBtn}}"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.01"/></svg></button>
+</header>
+
+<section class="card left" id="cardPSO">
+  <img src="{{assets}}mascots/eagle.png" alt="{{altEagle}}">
+  <div class="body">
+    <h2>{{eagleSwarm}} <small>PSO</small></h2>
+    <div class="nums"><div><b id="psoBest">0.000</b><span>{{lowestFound}}</span></div><div><b id="psoIter">0 / 60</b><span>{{round}}</span></div><div><b id="psoParam">w = 0.90</b><span>{{momentum}}</span></div></div>
+  </div>
+</section>
+<section class="card right" id="cardGWO">
+  <img src="{{assets}}mascots/wolf.png" alt="{{altWolf}}">
+  <div class="body">
+    <h2>{{wolfPack}} <small>GWO</small></h2>
+    <div class="nums"><div><b id="gwoBest">0.000</b><span>{{lowestFound}}</span></div><div><b id="gwoIter">0 / 60</b><span>{{round}}</span></div><div><b id="gwoParam">a = 2.00</b><span>{{circleSize}}</span></div></div>
+  </div>
+</section>
+
+<canvas id="chart" aria-label="{{chartAria}}"></canvas>
+<div class="chartkey"><i style="background:#2f7d6d"></i>{{chartEagles}} <i style="background:#c9612e"></i>{{chartWolves}} <em>{{chartNote}}</em></div>
+
+<!-- narrator: what is happening right now, in plain words -->
+<section id="narr" aria-live="polite">
+  <div class="nh">
+    <div class="nsteps" id="nsteps"><span data-s="eval"><b>1</b>{{stepMeasure}}</span><span data-s="plan"><b>2</b>{{stepDecide}}</span><span data-s="move"><b>3</b>{{stepMove}}</span></div>
+    <span class="nround" id="nround"></span>
+    <button class="chip" id="btnGuide" aria-pressed="false" title="{{guideTitle}}">{{guide}}</button>
+  </div>
+  <div class="ncols">
+    <div class="ncol pso"><img src="{{assets}}mascots/eagle.png" alt=""><div><p id="nPSO"></p><p class="live" id="lPSO"></p></div></div>
+    <div class="ncol gwo"><img src="{{assets}}mascots/wolf.png" alt=""><div><p id="nGWO"></p><p class="live" id="lGWO"></p></div></div>
+  </div>
+  <button class="cont" id="btnCont">{{continue}}<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+</section>
+
+<footer class="dock">
+  <div class="pill">
+    <button class="ib" id="btnReset" aria-label="{{restart}}" title="{{restart}} (R)"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v5h5"/></svg></button>
+    <button class="ib main" id="btnPlay" aria-label="{{ariaPause}}" title="{{playPause}} (space)"><svg viewBox="0 0 24 24"></svg></button>
+    <button class="ib" id="btnStep" aria-label="{{nextStep}}" title="{{nextStep}} (→)"><svg viewBox="0 0 24 24"><path d="M5 4.5l10 7.5-10 7.5z"/><path d="M19 5v14"/></svg></button>
+    <span class="sep"></span>
+    <label class="spd"><svg viewBox="0 0 24 24"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/></svg><input id="speed" type="range" min=".2" max="3" step=".1" value=".8" aria-label="{{speed}}"><output id="speedOut">0.8×</output></label>
+  </div>
+  <div class="progress"><div id="bar"></div></div>
+</footer>
+
+<aside id="sheet" aria-label="{{legend}}">
+  <button class="x" id="sheetClose" aria-label="{{close}}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <nav class="tabs" id="sheetTabs"><button data-tab="legend" class="on">{{tabLegend}}</button><button data-tab="pso">{{tabPSO}}</button><button data-tab="gwo">{{tabGWO}}</button></nav>
+  <section class="tab on" data-tab="legend">
+  <h3>{{sheetTitle}}</h3>
+  <p>{{sheetIntro}}</p>
+  <div class="two">
+    <div><h4>{{psoHead}}</h4>
+      <ul>
+        <li><i class="sw" style="background:#7fb2ff"></i>{{pso1}}</li>
+        <li><i class="sw" style="background:#3fd987"></i>{{pso2}}</li>
+        <li><i class="sw" style="background:#ffc61a"></i>{{pso3}}</li>
+        <li><i class="sw" style="background:#fff"></i>{{pso4}}</li>
+      </ul>
+      <p class="eq">v ← w·v + c₁r₁(pbest − x) + c₂r₂(gbest − x)<br>x ← x + v</p></div>
+    <div><h4>{{gwoHead}}</h4>
+      <ul>
+        <li><i class="sw" style="background:#ffd24a"></i>{{gwoLead}}</li>
+        <li>{{gwo2}}</li>
+        <li><i class="sw ring"></i>{{gwo3}}</li>
+      </ul>
+      <p class="eq">Xₖ = X_leader − A·|C·X_leader − X|<br>X ← (X₁ + X₂ + X₃) / 3</p></div>
+  </div>
+  <h4>{{compareHead}}</h4>
+  <table class="cmp">{{compareRows}}</table>
+  <h4>{{landscape}}</h4>
+  <div class="pick" id="fnPick"><button data-f="ackley" class="on">Ackley</button><button data-f="sphere">Sphere</button><button data-f="rastrigin">Rastrigin</button><button data-f="himmelblau">Himmelblau</button></div>
+  <p class="hint">{{hint}}</p>
+  </section>
+  <section class="tab" data-tab="pso">
+    <img class="tabmascot" src="{{assets}}mascots/eagle.png" alt="">
+    <p>{{psoIdea}}</p>
+    <p class="eq">v ← w·v + c₁r₁(pbest − x) + c₂r₂(gbest − x)<br>x ← x + v</p>
+    <h4>{{psoSymbols}}</h4><table class="sym">{{psoSym}}</table>
+    <h4>{{psoSteps}}</h4><ol class="pseudo">{{psoPseudo}}</ol>
+    <h4>{{psoWhy}}</h4><p>{{psoWhyText}}</p>
+  </section>
+  <section class="tab" data-tab="gwo">
+    <img class="tabmascot" src="{{assets}}mascots/wolf.png" alt="">
+    <p>{{gwoIdea}}</p>
+    <p class="eq">A = 2a·r₁ − a,  C = 2r₂<br>D = |C·X_leader − X|,  Xₖ = X_leader − A·D<br>X ← (X₁ + X₂ + X₃) / 3</p>
+    <h4>{{gwoSymbols}}</h4><table class="sym">{{gwoSym}}</table>
+    <h4>{{gwoSteps}}</h4><ol class="pseudo">{{gwoPseudo}}</ol>
+    <h4>{{gwoWhy}}</h4><p>{{gwoWhyText}}</p>
+  </section>
+</aside>
+
+<!-- explainer video: PSO and GWO in cloud computing (60_video.js) -->
+<div id="video" aria-hidden="true" role="dialog" aria-label="{{vHeader}}">
+  <div class="vtop"><span class="vbadge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 8.2l6 3.8-6 3.8z"/></svg>{{vHeader}}</span><b id="vTitle"></b><span id="vStep" class="vstep hide"></span><span id="vCount"></span></div>
+  <div id="vDiag" class="vdiag hide"></div>
+  <div class="vbottom">
+    <p id="vCap" class="vcap"></p>
+    <div class="vbar">
+      <button class="vib" id="vPrev" aria-label="{{back}}"><svg viewBox="0 0 24 24"><path d="M19 4.5L9 12l10 7.5z"/><path d="M5 5v14"/></svg></button>
+      <button class="vib main" id="vPlay" aria-label="{{ariaPause}}"><svg viewBox="0 0 24 24"></svg></button>
+      <button class="vib" id="vNext" aria-label="{{next}}"><svg viewBox="0 0 24 24"><path d="M5 4.5l10 7.5-10 7.5z"/><path d="M19 5v14"/></svg></button>
+      <div class="vseg" id="vSeg"></div>
+      <button class="chip on" id="vVoice">{{vVoiceOn}}</button>
+      <button class="vib" id="vClose" aria-label="{{close}}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- first-visit introduction -->
+<div id="tour" class="open" role="dialog" aria-modal="true" aria-label="{{tourAria}}">
+  <div class="tcard">
+    <div class="slide on">
+      <svg class="tart" viewBox="0 0 320 110"><path d="M0 70 C30 40 50 40 70 62 S110 95 135 72 S170 20 200 48 S240 104 262 88 S300 50 320 60 L320 110 L0 110Z" fill="#cfe3c4"/><path d="M0 70 C30 40 50 40 70 62 S110 95 135 72 S170 20 200 48 S240 104 262 88 S300 50 320 60" fill="none" stroke="#2f7d6d" stroke-width="2.5"/><line x1="246" y1="96" x2="246" y2="62" stroke="#1f2d2c" stroke-width="2"/><path d="M246 62 l18 6 -18 6z" fill="#e0a62a"/><text x="160" y="16" text-anchor="middle" font-size="11" fill="#5d6b69">{{t1Art}}</text></svg>
+      <h3>{{t1Title}}</h3>
+      <p>{{t1P1}}</p>
+      <p>{{t1P2}}</p>
+    </div>
+    <div class="slide">
+      <img class="tmascot" src="{{assets}}mascots/eagle.png" alt="">
+      <h3>{{t2Title}}</h3>
+      <p>{{t2P1}}</p>
+      <p>{{t2P2}}</p>
+    </div>
+    <div class="slide">
+      <img class="tmascot" src="{{assets}}mascots/wolf.png" alt="">
+      <h3>{{t3Title}}</h3>
+      <p>{{t3P1}}</p>
+      <p>{{t3P2}}</p>
+    </div>
+    <div class="slide">
+      <ol class="tsteps"><li><b>1</b><span>{{t4S1}}</span></li><li><b>2</b><span>{{t4S2}}</span></li><li><b>3</b><span>{{t4S3}}</span></li></ol>
+      <h3>{{t4Title}}</h3>
+      <p>{{t4P1}}</p>
+      <p>{{t4P2}}</p>
+    </div>
+    <div class="tnav">
+      <button class="tskip" id="tourSkip">{{skip}}</button>
+      <div class="tdots" id="tourDots"><i class="on"></i><i></i><i></i><i></i></div>
+      <button class="tback" id="tourBack">{{back}}</button>
+      <button class="tnext" id="tourNext">{{next}}</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+/*__JS__*/
+</script>
+</body>
+</html>
