@@ -1,0 +1,9 @@
+# build output is committed (pages work by double-click / GitHub Pages)
+
+# local only
+archive/
+metaheuristik-pso-gwo-v2/
+node_modules/
+__pycache__/
+.DS_Store
+Thumbs.db

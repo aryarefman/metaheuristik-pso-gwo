@@ -1,0 +1,14 @@
+{
+  "name": "sky-optimizers",
+  "version": "1.0.0",
+  "description": "Interactive 3D teaching animation of Particle Swarm Optimization and the Grey Wolf Optimizer, with a narrated explainer on cloud computing.",
+  "private": true,
+  "license": "MIT",
+  "repository": "github:aryarefman/metaheuristik-pso-gwo",
+  "scripts": {
+    "build": "python tools/build.py",
+    "test": "node tools/test_algorithms.js",
+    "test:e2e": "python tools/e2e_test.py",
+    "serve": "python -m http.server 8000"
+  }
+}

@@ -1,0 +1,5 @@
+# Only needed for development tools; the app itself has no install step.
+playwright>=1.40        # tools/e2e_test.py   (then: playwright install chrome)
+opencv-python>=4.8      # tools/cutout.py     (mascot background removal)
+numpy>=1.24             # tools/cutout.py
+Pillow>=10.0            # resizing screenshots / references
