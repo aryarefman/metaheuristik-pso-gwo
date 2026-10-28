@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/three.js-r160-000000?style=for-the-badge&logo=threedotjs&logoColor=white" alt="three.js r160" />
     <img src="https://img.shields.io/badge/No%20build%20to%20run-HTML%20%2B%20JS-E0A62A?style=for-the-badge&logo=javascript&logoColor=white" alt="Plain HTML and JS" />
     <img src="https://img.shields.io/badge/Languages-EN%20%7C%20ID-C9612E?style=for-the-badge" alt="English and Indonesian" />
-    <img src="https://img.shields.io/badge/Tests-unit%20%2B%20end--to--end-2EA44F?style=for-the-badge&logo=playwright&logoColor=white" alt="Tests" />
+    <a href="https://github.com/aryarefman/metaheuristik-pso-gwo/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/aryarefman/metaheuristik-pso-gwo/tests.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=Tests" alt="Tests" /></a>
     <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License MIT" />
   </p>
 
@@ -240,6 +240,8 @@ python tools/e2e_test.py
 ```
 
 The same commands are available as `npm test` and `npm run test:e2e`.
+
+On GitHub, [Actions](https://github.com/aryarefman/metaheuristik-pso-gwo/actions/workflows/tests.yml) runs the algorithm test and checks that the built pages match `src/` on every push and pull request.
 
 ## Repository structure
 
